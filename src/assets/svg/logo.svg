@@ -1,0 +1,10 @@
+<svg width="51" height="54" viewBox="0 0 51 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="25.1727" cy="26.7589" rx="25.0758" ry="26.3794" fill="white"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="51" height="54">
+<ellipse cx="25.1727" cy="26.7589" rx="25.0758" ry="26.3794" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M-2.85312 20.552C-2.85312 20.552 5.19996 43.0521 25.1727 43.0521C45.1455 43.0521 53.1986 20.552 53.1986 20.552V59.3453H-2.85312V20.552Z" fill="#32C5FF"/>
+</g>
+<ellipse cx="25.1727" cy="25.9831" rx="11.0628" ry="11.638" fill="#32C5FF"/>
+</svg>

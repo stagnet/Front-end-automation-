@@ -1,0 +1,8 @@
+# this will ignore all the eslint error
+
+/build/
+/config/
+/dist/
+/*.js
+/test/unit/coverage/
+*
