@@ -14,11 +14,12 @@
           center-active
         >
           <v-chip v-for="tag in tags" :key="tag.name" :to="tag.to">
-            {{ tag }}
+            {{ tag.name }}
           </v-chip>
         </v-chip-group>
       </v-col>
     </v-row>
+    <router-view />
   </div>
 </template>
 
@@ -28,10 +29,10 @@
     data() {
       return {
         tags: [
-          { name: "My Profile", to: "/" },
-          { name: "Email Notification", to: "/1" },
-          { name: "Workflow", to: "/2" },
-          { name: "Billing and Usage", to: "/3" },
+          { name: "My Profile", to: "/settings/myprofile" },
+          { name: "Email Notification", to: "/settings/email-notification" },
+          { name: "Workflow", to: "/settings/myworkflow" },
+          { name: "Billing and Usage", to: "/settings/billing" },
         ],
       };
     },

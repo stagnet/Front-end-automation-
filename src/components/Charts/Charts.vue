@@ -54,74 +54,77 @@
 </template>
 
 <script>
-export default {
-  name: "Charts",
-  data: () => ({
-    // Column charts
-    tags: ["Day", "Week", "Month"],
-    Column_options: {
-      chart: {
-        height: 340,
-        type: "bar"
+  export default {
+    name: "Charts",
+    data: () => ({
+      // Column charts
+      tags: ["Day", "Week", "Month"],
+      Column_options: {
+        chart: {
+          height: 340,
+          type: "bar",
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: "20%",
+            endingShape: "rounded",
+            startingShape: "rounded",
+            distributed: true,
+          },
+        },
+        xaxis: {
+          categories: [
+            "W20",
+            "W21",
+            "W22",
+            "W23",
+            "W24",
+            "W25",
+            "W26",
+            "W27",
+            "W28",
+          ],
+          labels: {
+            show: false,
+            hideOverlappingLabels: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          show: true,
+          width: 4,
+          colors: ["transparent"],
+        },
       },
-      plotOptions: {
-        bar: {
-          columnWidth: "20%",
-          endingShape: "rounded",
-          startingShape: "rounded",
-          distributed: true
-        }
+      Column_series: [
+        {
+          name: "series-1",
+          data: [30, 40, 45, 50, 49, 60, 70, 91, 38],
+        },
+      ],
+      // Radial chart
+      Radial_series: [80],
+      Radial_options: {
+        chart: {
+          height: 330,
+          type: "radialBar",
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: "65%",
+            },
+          },
+        },
+        stroke: {
+          lineCap: "round",
+        },
+        labels: ["Workflow Remaining"],
       },
-      xaxis: {
-        categories: [
-          "W20",
-          "W21",
-          "W22",
-          "W23",
-          "W24",
-          "W25",
-          "W26",
-          "W27",
-          "W28"
-        ],
-        labels: {
-          show: false,
-          hideOverlappingLabels: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 4,
-        colors: ["transparent"]
-      }
-    },
-    Column_series: [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91, 38]
-      }
-    ],
-    // Radial chart
-    Radial_series: [80],
-    Radial_options: {
-      chart: {
-        height: 330,
-        type: "radialBar"
-      },
-      plotOptions: {
-        radialBar: {
-          hollow: {
-            size: "50%"
-          }
-        }
-      },
-      labels: ["Workflow Remaining"]
-    }
-  })
-};
+    }),
+  };
 </script>
 
 <style lang="scss" scoped></style>

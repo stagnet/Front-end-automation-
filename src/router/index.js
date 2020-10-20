@@ -8,7 +8,8 @@ import Library from "../views/AdminPanel/WorkLibrary";
 import Credential from "../views/AdminPanel/Credentials";
 import Setting from "../views/AdminPanel/Settings";
 import Help from "../views/AdminPanel/Help";
-
+import billing from "../components/billing/billing";
+import Not_Found from "../components/error";
 // import Login from "../layouts/login";
 
 // import Invite from "../layouts/invite";
@@ -35,30 +36,46 @@ const routes = [
     children: [
       {
         path: "dashboard",
-        component: Dashboard
+        component: Dashboard,
       },
       {
         path: "workflow",
-        component: Workflow
+        component: Workflow,
       },
       {
         path: "workflow-library",
-        component: Library
+        component: Library,
       },
       {
         path: "credentials",
-        component: Credential
+        component: Credential,
       },
       {
         path: "settings",
-        component: Setting
+        component: Setting,
+        children: [
+          {
+            path: "/settings/billing",
+            component: billing,
+          },
+          {
+            path: "*",
+            name: "Not_Found",
+            component: Not_Found,
+          },
+        ],
       },
       {
         path: "help",
-        component: Help
-      }
-    ]
-  }
+        component: Help,
+      },
+    ],
+  },
+  {
+    path: "*",
+    name: "Not_Found",
+    component: Not_Found,
+  },
   // {
   //   path: "/about",
   //   name: "About",
@@ -73,7 +90,7 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;
