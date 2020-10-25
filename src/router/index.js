@@ -10,7 +10,9 @@ import Setting from "../views/AdminPanel/Settings";
 import Help from "../views/AdminPanel/Help";
 import billing from "../components/billing/billing";
 import Not_Found from "../components/error";
-// import Login from "../layouts/login";
+import SignUp from "../components/forms/signUp";
+import Forms from "../views/AdminPanel/Forms.vue";
+import ForgotPass from "../components/forms/forgotPass";
 
 // import Invite from "../layouts/invite";
 // import { component } from "vue/types/umd";
@@ -18,19 +20,23 @@ import Not_Found from "../components/error";
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   component: Login,
-  //   children: [
-  //     {
-  //       path: "1",
-  //       component:
-  //     }
-  //   ]
-  // },
   {
     path: "/",
+    name: "Forms",
+    component: Forms,
+  },
+  {
+    path: "/sign-up",
+    name: "SignUp",
+    component: SignUp,
+  },
+  {
+    path: "/recover-password",
+    name: "forgotPass",
+    component: ForgotPass,
+  },
+  {
+    path: "",
     name: "Navbar",
     component: Navbar,
     children: [

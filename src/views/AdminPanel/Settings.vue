@@ -19,6 +19,7 @@
         </v-chip-group>
       </v-col>
     </v-row>
+
     <router-view />
   </div>
 </template>
