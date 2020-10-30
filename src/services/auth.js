@@ -10,6 +10,6 @@ export default class auth {
         return this.http.post('/v1/user/login', payload)
     }
     register(payload) {
-        return this.http.post('/v1/user/login', payload)
+        return this.http.post('/v1/user/register', payload)
     }
 }
