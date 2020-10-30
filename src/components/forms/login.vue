@@ -13,9 +13,7 @@
       <!-- form -->
       <v-col cols="12" md="6" sm="12" class="mt-5">
         <v-col cols="12" md="12" align="center">
-          <p class="text-h6 text--primary">
-            Welcomeback! Sign In
-          </p>
+          <p class="text-h6 text--primary">Welcomeback! Sign In</p>
           <small class="body-2">Use your E-mail account</small>
         </v-col>
 
@@ -32,11 +30,16 @@
           </v-btn>
         </v-col>
 
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          @submit.prevent="login"
+        >
           <div align="center">
             <v-col cols="12" md="8" sm="12">
               <v-text-field
-                v-model="email"
+                v-model="form.email"
                 :rules="emailRules"
                 label="E-mail*"
                 outlined
@@ -48,7 +51,7 @@
           <div align="center">
             <v-col cols="12" md="8" sm="12">
               <v-text-field
-                v-model="password"
+                v-model="form.password"
                 :rules="passwordRules"
                 label="Password*"
                 :type="showPassword ? 'text' : 'password'"
@@ -80,7 +83,19 @@
             </div>
             <!-- ... -->
             <v-col cols="12" md="8" sm="12">
-              <v-btn block color="info" class="mr-4" @click="validate">
+              <v-btn
+                block
+                color="info"
+                type="submit"
+                class="mr-4"
+                @click="validate"
+              >
+                <v-progress-circular
+                  v-if="loading"
+                  indeterminate
+                  :width="5"
+                  color="primary"
+                ></v-progress-circular>
                 Sign In
               </v-btn>
             </v-col>
@@ -96,36 +111,77 @@
         </v-form>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "loginForm",
-    data: () => ({
-      valid: true,
-      showPassword: false,
-      password: "",
+import authService from "@/services/auth";
+export default {
+  name: "loginForm",
+  data: () => ({
+    valid: true,
+    snackbar: false,
+    text: "",
+    timeout: 2000,
+    loading: false,
+    showPassword: false,
+    password: "",
+    email: "",
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    passwordRules: [
+      (v) =>
+        (v && /^[a-z0-9\-]+$/.test(v)) ||
+        `Only lowercase letters, numbers or hyphens allowed`,
+      (v) => v.length >= 8 || "Min 8 characters",
+    ],
+    checkbox: false,
+    authService: null,
+    form: {
       email: "",
-      emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-      ],
-      passwordRules: [
-        (v) =>
-          (v && /^[a-z0-9\-]+$/.test(v)) ||
-          `Only lowercase letters, numbers or hyphens allowed`,
-        (v) => v.length >= 8 || "Min 8 characters",
-      ],
-      checkbox: false,
-    }),
-
-    methods: {
-      validate() {
-        this.$refs.form.validate();
-      },
+      password: "",
     },
-  };
+  }),
+
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    async login() {
+      this.loading = true;
+      try {
+        const login = await this.authService.login(this.form);
+        console.log(login);
+        localStorage.setItem("userData", JSON.stringify(login.data.data));
+        localStorage.setItem("token", login.data.token);
+        this.text = "Login Successful";
+        this.snackbar = true;
+        this.loading = false;
+        this.$router.push({
+          path: "/dashboard",
+        });
+      } catch (err) {
+        console.log(err.response.data.message);
+        this.text = err.response.data.message;
+        this.loading = false;
+      }
+    },
+  },
+  created() {
+    this.authService = new authService(this.$http);
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>
