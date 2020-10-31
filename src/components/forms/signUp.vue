@@ -13,9 +13,7 @@
       <!-- form -->
       <v-col cols="12" md="6" sm="12" class="mt-5">
         <v-col cols="12" md="12" align="center">
-          <p class="text-h6 text--primary">
-            Create Account
-          </p>
+          <p class="text-h6 text--primary">Create Account</p>
           <small class="body-2">Use your E-mail for registration</small>
         </v-col>
 
@@ -32,11 +30,16 @@
           </v-btn>
         </v-col>
 
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          @submit.prevent="register"
+        >
           <div align="center">
             <v-col cols="12" md="8" sm="12">
               <v-text-field
-                v-model="name"
+                v-model="form.name"
                 :counter="10"
                 :rules="nameRules"
                 label="Name*"
@@ -49,7 +52,7 @@
           <div align="center">
             <v-col cols="12" md="8" sm="12">
               <v-text-field
-                v-model="email"
+                v-model="form.email"
                 :rules="emailRules"
                 label="E-mail*"
                 outlined
@@ -61,7 +64,7 @@
           <div align="center">
             <v-col cols="12" md="8" sm="12">
               <v-text-field
-                v-model="password"
+                v-model="form.password"
                 :rules="passwordRules"
                 label="Password*"
                 :type="showPassword ? 'text' : 'password'"
@@ -80,7 +83,19 @@
                 required
               ></v-checkbox>
 
-              <v-btn block color="info" class="mr-4" @click="validate">
+              <v-btn
+                block
+                color="info"
+                type="submit"
+                class="mr-4"
+                @click="validate"
+              >
+                <v-progress-circular
+                  v-if="loading"
+                  indeterminate
+                  :width="5"
+                  color="primary"
+                ></v-progress-circular>
                 Sign Up
               </v-btn>
             </v-col>
@@ -94,37 +109,84 @@
         </v-form>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "loginForm",
-    data: () => ({
-      valid: true,
-      showPassword: false,
-      name: "",
-      password: "",
-      nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      ],
+import authService from "@/services/auth";
+export default {
+  name: "loginForm",
+  data: () => ({
+    valid: true,
+    showPassword: false,
+    name: "",
+    password: "",
+    snackbar: false,
+    text: "",
+    timeout: 2000,
+    loading: false,
+    nameRules: [
+      (v) => !!v || "Name is required",
+      (v) => (v && v.length <= 20) || "Name must be less than 10 characters",
+    ],
+    email: "",
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    passwordRules: [
+      (v) =>
+        (v && /^[a-z0-9\-]+$/.test(v)) ||
+        `Only lowercase letters, numbers or hyphens allowed`,
+      (v) => v.length >= 8 || "Min 8 characters",
+    ],
+    // select: null,
+    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+    checkbox: false,
+
+    form: {
       email: "",
-      emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-      ],
-      passwordRules: [
-        (v) =>
-          (v && /^[a-z0-9\-]+$/.test(v)) ||
-          `Only lowercase letters, numbers or hyphens allowed`,
-        (v) => v.length >= 8 || "Min 8 characters",
-      ],
-      // select: null,
-      items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-      checkbox: false,
-    }),
-  };
+      password: "",
+      name: "",
+    },
+    loading: false,
+  }),
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    async register() {
+      this.loading = true;
+      try {
+        const register = await this.authService.register(this.form);
+        console.log(register);
+        this.snackbar = true;
+        this.text = "Registration Successful";
+        this.loading = false;
+        this.$router.push({
+          path: "/",
+        });
+      } catch (err) {
+        this.snackbar = true;
+        console.log(err.response.data);
+        this.text = err.response.data.message;
+        this.loading = false;
+      }
+    },
+  },
+  created() {
+    this.authService = new authService(this.$http);
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>
