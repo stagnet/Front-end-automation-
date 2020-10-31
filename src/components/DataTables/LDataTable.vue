@@ -39,8 +39,10 @@
 
 <script>
   import ActionButton from "../ActionButton/ActionButton";
+
   export default {
     name: "LargeDataTable",
+    props: ["dialog"],
     components: {
       ActionButton,
     },
