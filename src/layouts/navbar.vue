@@ -8,9 +8,7 @@
             <v-img src="@/assets/svg/logo.svg" />
           </v-list-item-avatar>
           <v-list-item-content class="white--text">
-            <v-list-item-title>
-              Automation Marketing
-            </v-list-item-title>
+            <v-list-item-title> Automation Marketing </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- Menu -->
@@ -36,9 +34,7 @@
         <template v-slot:append>
           <div class="pa-2">
             <v-sheet rounded color="#324160" elevation="3">
-              <p class="subtitle-1  white--text pa-2 text-center">
-                FREE PLAN
-              </p>
+              <p class="subtitle-1 white--text pa-2 text-center">FREE PLAN</p>
               <v-list subheader>
                 <v-list-item>
                   <v-list-item-content>
@@ -53,9 +49,7 @@
                 </v-list-item>
               </v-list>
               <div class="pa-2">
-                <v-btn block color="#32C5FF">
-                  Upgrade
-                </v-btn>
+                <v-btn block color="#32C5FF"> Upgrade </v-btn>
               </div>
             </v-sheet>
           </div>
@@ -67,7 +61,7 @@
         <v-app-bar-nav-icon @click="drawer = !drawer">
           <img
             src="@/assets/svg/menu-left.svg"
-            style="height: 18px; width: 30px;"
+            style="height: 18px; width: 30px"
           />
         </v-app-bar-nav-icon>
 
