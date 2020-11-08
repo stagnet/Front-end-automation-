@@ -13,7 +13,7 @@ import Not_Found from "../components/error";
 import SignUp from "../components/forms/signUp";
 import Forms from "../views/AdminPanel/Forms.vue";
 import ForgotPass from "../components/forms/forgotPass";
-
+import CreateFlow from "../views/AdminPanel/CreateWorkFLow";
 // import Invite from "../layouts/invite";
 // import { component } from "vue/types/umd";
 
@@ -34,6 +34,11 @@ const routes = [
     path: "/recover-password",
     name: "forgotPass",
     component: ForgotPass,
+  },
+  {
+    path: "/create-work-flow",
+    name: "CreateFlow",
+    component: CreateFlow,
   },
   {
     path: "",

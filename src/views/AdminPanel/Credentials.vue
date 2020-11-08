@@ -36,6 +36,12 @@
         show-select
         :search="search"
       >
+        <!-- Credentail Modal .. -->
+
+        <!-- Modal Ends -->
+        <template v-slot:item.actions="{ item }">
+          <credentialModal />
+        </template>
       </v-data-table>
     </v-sheet>
   </div>
